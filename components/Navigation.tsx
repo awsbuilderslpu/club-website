@@ -65,10 +65,6 @@ export function NavigationBar() {
               HOME
               <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
             </Link>
-            <Link href="#about" className="text-blue-100 hover:text-cyan-300 transition-colors font-mono text-xs uppercase tracking-widest relative group hidden sm:block">
-              PROGRAMS
-              <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-            </Link>
             <Link href="/#about" className="text-blue-100 hover:text-cyan-300 transition-colors font-mono text-xs uppercase tracking-widest relative group hidden sm:block">
               About Us
               <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-400 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
