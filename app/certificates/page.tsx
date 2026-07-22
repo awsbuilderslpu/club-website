@@ -32,21 +32,24 @@ export default async function CertificatesPage() {
     redirect('/auth/login')
   }
 
-  const [{ data: eventsData }, { data: attendanceData }, { data: certificatesData }] = await Promise.all([
-    supabaseAdmin
-      .from('events')
-      .select('id, title, event_date')
-      .order('event_date', { ascending: false }),
-    supabaseAdmin
-      .from('attendance')
-      .select('event_id, status')
-      .eq('user_id', user.id)
-      .in('status', ['checkin', 'checkout']),
-    supabaseAdmin
-      .from('certificates')
-      .select('event_id, certificate_uid')
-      .eq('user_id', user.id),
-  ])
+  const [{ data: eventsData }, { data: attendanceData }, { data: certificatesData }] =
+    await Promise.all([
+      supabaseAdmin
+        .from('events')
+        .select('id, title, event_date')
+        .order('event_date', { ascending: false }),
+
+      supabaseAdmin
+        .from('attendance')
+        .select('event_id, status')
+        .eq('user_id', user.id)
+        .in('status', ['checkin', 'checkout']),
+
+      supabaseAdmin
+        .from('certificates')
+        .select('event_id, certificate_uid')
+        .eq('user_id', user.id),
+    ])
 
   const attendanceByEvent = new Map<string, string[]>()
 
@@ -68,39 +71,51 @@ export default async function CertificatesPage() {
     id: event.id,
     title: event.title,
     eventDate: event.event_date,
-    eligible: isEligibleForCertificate(attendanceByEvent.get(event.id) ?? []),
+    eligible: isEligibleForCertificate(
+      attendanceByEvent.get(event.id) ?? []
+    ),
     certificateUid: certificateByEvent.get(event.id) ?? null,
   }))
 
   return (
-    <div className="relative min-h-screen overflow-hidden px-4 pb-12 pt-28 text-white sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,229,255,0.12),transparent_28%),radial-gradient(circle_at_top_right,rgba(255,165,0,0.12),transparent_24%),linear-gradient(135deg,#071225_0%,#0B1D3A_45%,#132E59_100%)]" />
-      <div className="absolute inset-0 opacity-40 bg-[linear-gradient(0deg,transparent_24%,rgba(14,165,233,0.08)_25%,rgba(14,165,233,0.08)_26%,transparent_27%,transparent_74%,rgba(14,165,233,0.08)_75%,rgba(14,165,233,0.08)_76%,transparent_77%,transparent),linear-gradient(90deg,transparent_24%,rgba(14,165,233,0.08)_25%,rgba(14,165,233,0.08)_26%,transparent_27%,transparent_74%,rgba(14,165,233,0.08)_75%,rgba(14,165,233,0.08)_76%,transparent_77%,transparent)] bg-size-[56px_56px]" />
+    <div className="min-h-screen bg-gradient-to-b from-[#0B1D3A] to-[#132E59] px-4 py-8">
+      <div className="mx-auto max-w-6xl">
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white sm:text-5xl">My Certificates</h1>
-          <p className="mt-3 max-w-3xl text-blue-100/80">
-            Generate and download certificates for events where you completed both checkin and checkout.
-          </p>
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+
+          <div>
+            <h1 className="text-3xl font-bold text-white">
+              My Certificates
+            </h1>
+
+            <p className="mt-1 text-slate-300">
+              Download certificates for events you've successfully attended.
+            </p>
+          </div>
+
+          <Link
+            href="/dashboard"
+            className="rounded-lg border border-slate-700 bg-slate-900/40 px-4 py-2 text-sm text-white transition hover:bg-slate-800"
+          >
+            Dashboard
+          </Link>
+
         </div>
 
         {events.length ? (
           <CertificatesClient events={events} />
         ) : (
-          <div className="rounded-2xl border border-cyan-400/20 bg-blue-950/50 px-6 py-8 text-blue-100/80">
-            No events found yet.
+          <div className="rounded-xl border border-slate-700 bg-slate-900/40 py-16 text-center">
+            <h2 className="text-lg font-semibold text-white">
+              No certificates available
+            </h2>
+
+            <p className="mt-2 text-slate-400">
+              Attend events and complete check-in & check-out to earn certificates.
+            </p>
           </div>
         )}
 
-        <div className="mt-8">
-          <Link
-            href="/dashboard"
-            className="inline-flex h-11 items-center rounded-xl border border-cyan-400/30 bg-blue-950/60 px-4 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300"
-          >
-            Back to Dashboard
-          </Link>
-        </div>
       </div>
     </div>
   )

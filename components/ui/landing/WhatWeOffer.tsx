@@ -1,95 +1,85 @@
-
 import {
   GraduationCap,
   Laptop,
   Users,
   UserCog,
   Trophy,
-  Award
+  Award,
 } from "lucide-react";
 
+const features = [
+  {
+    icon: GraduationCap,
+    title: "Structured Learning",
+    description:
+      "Guided AWS learning paths from Cloud Practitioner to Solutions Architect.",
+  },
+  {
+    icon: Laptop,
+    title: "Hands-on Labs",
+    description:
+      "Build projects using AWS services with practical workshops and labs.",
+  },
+  {
+    icon: Users,
+    title: "Industry Network",
+    description:
+      "Connect with mentors, speakers, and professionals from the cloud community.",
+  },
+  {
+    icon: UserCog,
+    title: "Expert Mentorship",
+    description:
+      "Learn from AWS-certified students and industry professionals.",
+  },
+  {
+    icon: Trophy,
+    title: "Hackathons & Events",
+    description:
+      "Participate in workshops, hackathons, and technical community events.",
+  },
+  {
+    icon: Award,
+    title: "Certificates",
+    description:
+      "Earn community and AWS certificates by completing learning tracks.",
+  },
+];
+
 export default function WhatWeOffer() {
-  const features = [
-    {
-      icon: GraduationCap,
-      title: "Structured Learning",
-      description:
-        "Guided paths for AWS certifications from Cloud Practitioner to Solutions Architect with comprehensive learning materials."
-    },
-    {
-      icon: Laptop,
-      title: "Hands-on Labs",
-      description:
-        "Real AWS accounts, practical projects, and step-by-step learning repositories to master cloud technologies."
-    },
-    {
-      icon: Users,
-      title: "Industry Connection",
-      description:
-        "Guest speakers, mentorship programs, and internship opportunities with top tech companies and AWS partners."
-    },
-    {
-      icon: UserCog,
-      title: "Expert Mentors",
-      description:
-        "Learn directly from AWS-certified professionals and industry veterans with real-world experience."
-    },
-    {
-      icon: Trophy,
-      title: "Hackathons & Events",
-      description:
-        "Compete, build projects, and win prizes in regular challenges, workshops, and hands-on development events."
-    },
-    {
-      icon: Award,
-      title: "Certifications",
-      description:
-        "Get recognized with AWS and community certificates upon completion of learning tracks and achievements."
-    }
-  ];
-
-
   return (
-    <section id="about" className="w-full py-20 px-4 relative">
-      <div className="grid-lines absolute inset-0"></div>
-      <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
-        <div className="text-center mb-16 control-badge p-8 border-3 border-cyan-400 comic-border mx-auto max-w-4xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="text-cyan-300">▸</span> What We <span className="text-cyan-400">OFFER</span>
+    <section id="about"
+    className="py-24 bg-gradient-to-b from-[#05060f] to-[#132E59]"
+    >
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-4xl font-bold text-white">
+            What we offer
           </h2>
-          <p className="text-blue-100 text-base max-w-3xl mx-auto leading-relaxed font-mono">
-            AWS Student Builder Group LPU provides comprehensive learning, hands-on experience, industry connections, and career opportunities for students passionate about cloud computing.
+
+          <p className="mt-4 text-slate-400">
+            Everything you need to start your cloud journey—from learning AWS to
+            building projects and connecting with the community.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {features.map(({ icon: Icon, title, description }) => (
+            <div
+              key={title}
+              className="rounded-xl border border-slate-800 bg-slate-900/50 p-6"
+            >
+              <Icon className="h-8 w-8 text-cyan-400" />
 
-            return (
-              <div
-                key={index}
-                className="group bg-blue-950/50 p-6 border-3 border-cyan-400 hover:border-cyan-300 transition-all duration-300 comic-border relative overflow-hidden"
-              >
-                <div
-                  className="absolute top-0 left-0 right-0 h-1 bg-cyan-400/20"
-                  style={{ animation: "telemetryPulse 2s infinite" }}
-                />
+              <h3 className="mt-5 text-lg font-semibold text-white">
+                {title}
+              </h3>
 
-                <div className="mb-4 text-cyan-300 group-hover:text-cyan-200 transition-all duration-300">
-                  <Icon size={42} strokeWidth={1.6} />
-                </div>
-
-                <h3 className="text-lg font-bold text-cyan-300 mb-3 uppercase tracking-wider">
-                  {feature.title}
-                </h3>
-
-                <p className="text-blue-100/70 text-sm leading-relaxed font-mono">
-                  {feature.description}
-                </p>
-              </div>
-            );
-          })}
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                {description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

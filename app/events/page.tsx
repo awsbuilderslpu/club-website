@@ -1,62 +1,157 @@
-import Link from 'next/link'
-import { CalendarDays, MapPin } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import Link from "next/link";
+import { CalendarDays, MapPin } from "lucide-react";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export default async function EventsPage() {
   const { data: events } = await supabaseAdmin
-    .from('events')
-    .select('id, title, description, location, event_date')
-    .order('event_date', { ascending: true })
+    .from("events")
+    .select("id, title, description, location, event_date")
+    .order("event_date", { ascending: true });
+
+  const now = new Date();
+
+  const upcomingEvents =
+    events?.filter(
+      (event) => new Date(event.event_date).getTime() >= now.getTime()
+    ) ?? [];
+
+  const pastEvents =
+    events
+      ?.filter(
+        (event) => new Date(event.event_date).getTime() < now.getTime()
+      )
+      .reverse() ?? [];
 
   return (
-    <div className="relative min-h-screen overflow-hidden px-4 pb-12 pt-28 text-white sm:px-6 lg:px-8">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,229,255,0.12),transparent_28%),radial-gradient(circle_at_top_right,rgba(255,165,0,0.12),transparent_24%),linear-gradient(135deg,#071225_0%,#0B1D3A_45%,#132E59_100%)]" />
-      <div className="absolute inset-0 opacity-40 bg-[linear-gradient(0deg,transparent_24%,rgba(14,165,233,0.08)_25%,rgba(14,165,233,0.08)_26%,transparent_27%,transparent_74%,rgba(14,165,233,0.08)_75%,rgba(14,165,233,0.08)_76%,transparent_77%,transparent),linear-gradient(90deg,transparent_24%,rgba(14,165,233,0.08)_25%,rgba(14,165,233,0.08)_26%,transparent_27%,transparent_74%,rgba(14,165,233,0.08)_75%,rgba(14,165,233,0.08)_76%,transparent_77%,transparent)] bg-size-[56px_56px]" />
+    <main className="min-h-screen bg-linear-to-b from-[#0B1D3A] to-[#132E59] px-6 py-28 text-white">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-12">
+          <h1 className="text-5xl font-bold">Events</h1>
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white sm:text-5xl">Upcoming Events</h1>
-          <p className="mt-3 max-w-3xl text-blue-100/80">
-            Discover workshops, sessions, and club meetups. Join the community and build your cloud journey.
+          <p className="mt-4 max-w-2xl text-slate-300">
+            Discover upcoming workshops, hackathons, and community events
+            organized by AWS Student Builder Group LPU.
           </p>
         </div>
 
-        <div className="grid gap-5">
-          {(events ?? []).map((event) => (
-            <article key={event.id} className="rounded-3xl border border-cyan-400/20 bg-[#08192F]/85 p-6 shadow-[0_24px_80px_rgba(2,10,24,0.5)] backdrop-blur-xl">
-              <h2 className="text-2xl font-bold text-white">{event.title}</h2>
-              <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-cyan-200/85">
-                <span className="inline-flex items-center gap-2">
-                  <CalendarDays size={16} />
-                  {new Date(event.event_date).toLocaleString()}
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <MapPin size={16} />
-                  {event.location || 'Location to be announced'}
-                </span>
-              </div>
-              {event.description ? (
-                <p className="mt-4 leading-7 text-blue-100/80">{event.description}</p>
-              ) : null}
-            </article>
-          ))}
+        <section>
+          <h2 className="mb-5 text-2xl font-semibold text-white">
+            Upcoming Events
+          </h2>
 
-          {!events?.length && (
-            <div className="rounded-2xl border border-cyan-400/20 bg-blue-950/50 px-6 py-8 text-blue-100/80">
-              No events published yet.
+          {upcomingEvents.length ? (
+            <div className="space-y-4">
+              {upcomingEvents.map((event) => (
+                <article
+                  key={event.id}
+                  className="rounded-lg border border-slate-700 bg-slate-900/40 p-5"
+                >
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-semibold text-white">
+                        {event.title}
+                      </h3>
+
+                      <div className="mt-2 flex flex-wrap gap-5 text-sm text-slate-400">
+                        <span className="flex items-center gap-2">
+                          <CalendarDays size={15} />
+                          {new Date(event.event_date).toLocaleString()}
+                        </span>
+
+                        <span className="flex items-center gap-2">
+                          <MapPin size={15} />
+                          {event.location || "TBA"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/events/${event.id}`}
+                      className="rounded-md border border-slate-600 px-4 py-2 text-sm hover:bg-white/10"
+                    >
+                      View
+                    </Link>
+                  </div>
+
+                  {event.description && (
+                    <p className="mt-3 line-clamp-2 text-sm text-slate-300">
+                      {event.description}
+                    </p>
+                  )}
+                </article>
+              ))}
             </div>
+          ) : (
+            <p className="rounded-lg border border-slate-700 bg-slate-900/40 p-6 text-slate-400">
+              No upcoming events.
+            </p>
           )}
-        </div>
+        </section>
 
-        <div className="mt-8">
+        {/* Past Events */}
+        <section className="mt-12">
+          <h2 className="mb-5 text-2xl font-semibold text-white">
+            Past Events
+          </h2>
+
+          {pastEvents.length ? (
+            <div className="space-y-4">
+              {pastEvents.map((event) => (
+                <article
+                  key={event.id}
+                  className="rounded-lg border border-slate-700 bg-slate-900/40 p-5 opacity-80"
+                >
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-semibold text-white">
+                        {event.title}
+                      </h3>
+
+                      <div className="mt-2 flex flex-wrap gap-5 text-sm text-slate-400">
+                        <span className="flex items-center gap-2">
+                          <CalendarDays size={15} />
+                          {new Date(event.event_date).toLocaleString()}
+                        </span>
+
+                        <span className="flex items-center gap-2">
+                          <MapPin size={15} />
+                          {event.location || "TBA"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/events/${event.id}`}
+                      className="rounded-md border border-slate-600 px-4 py-2 text-sm hover:bg-white/10"
+                    >
+                      View
+                    </Link>
+                  </div>
+
+                  {event.description && (
+                    <p className="mt-3 line-clamp-2 text-sm text-slate-300">
+                      {event.description}
+                    </p>
+                  )}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-lg border border-slate-700 bg-slate-900/40 p-6 text-slate-400">
+              No past events.
+            </p>
+          )}
+        </section>
+
+        <div className="mt-12">
           <Link
             href="/"
-            className="inline-flex h-11 items-center rounded-xl border border-cyan-400/30 bg-blue-950/60 px-4 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300"
+            className="inline-flex rounded-lg border border-slate-600 px-5 py-3 font-medium text-white transition hover:bg-white/10"
           >
-            Back to Home
+            ← Back to Home
           </Link>
         </div>
       </div>
-    </div>
-  )
+    </main>
+  );
 }

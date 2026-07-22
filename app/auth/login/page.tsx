@@ -16,6 +16,7 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
     setLoading(true)
     setError(null)
 
@@ -28,19 +29,17 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       })
 
-      const data = await res.json()
-
       if (!res.ok) {
-        setError(data.error || 'Something went wrong')
-        setLoading(false)
+        const data = await res.json()
+        setError(data.error ?? 'Login failed')
         return
       }
 
-      // ✅ Redirect after login
       router.push('/dashboard')
-      router.refresh()
-    } catch (err) {
-      setError('Network error')
+    } catch (error) {
+      console.error(error)
+      setError('Unable to connect to the server.')
+    } finally {
       setLoading(false)
     }
   }
@@ -49,7 +48,10 @@ export default function Login() {
     setGoogleLoading(true)
     setError(null)
 
-    const redirectTo = `${window.location.origin}/auth/login/callback`
+    const redirectTo = new URL(
+      '/auth/login/callback',
+      window.location.origin
+    ).toString()
 
     const { error } = await supabaseBrowser.auth.signInWithOAuth({
       provider: 'google',
@@ -59,7 +61,7 @@ export default function Login() {
     })
 
     if (error) {
-      setError(error.message || 'Unable to continue with Google')
+      setError(error.message)
       setGoogleLoading(false)
     }
   }
@@ -83,6 +85,7 @@ export default function Login() {
             placeholder="you@lpu.in"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading || googleLoading}
           />
         </div>
 
@@ -95,6 +98,7 @@ export default function Login() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading || googleLoading}
           />
         </div>
 
@@ -102,7 +106,7 @@ export default function Login() {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || googleLoading}
           className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-orange-500 to-amber-400 px-4 py-3 font-semibold text-[#08192F] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? 'Logging in...' : 'Login to portal'}
@@ -119,7 +123,7 @@ export default function Login() {
         <button
           type="button"
           onClick={handleGoogleLogin}
-          disabled={googleLoading}
+          disabled={loading || googleLoading}
           className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-cyan-400/25 bg-blue-950/55 px-4 py-3 font-semibold text-cyan-100 transition hover:border-cyan-300 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {googleLoading ? 'Redirecting...' : 'Continue with Google'}

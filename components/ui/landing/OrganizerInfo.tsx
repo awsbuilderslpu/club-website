@@ -1,65 +1,72 @@
 export default function OrganizerInfo() {
-return (
-    <section className="w-full py-20 px-4 relative">
-      <div className="grid-lines absolute inset-0"></div>
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="text-cyan-400">▸</span> AWS Student Builder Group <span className="text-cyan-300">LPU</span>
-          </h2>
-        </div>
+  const stats = [
+    { value: "5K+", label: "Active Members" },
+    { value: "10+", label: "Annual Events" },
+    { value: "100+", label: "AWS Certified Students" },
+    { value: "50h+", label: "Training Every Year" },
+  ];
 
-        <div className="bg-blue-950/50 rounded-none p-0 border-3 border-cyan-400 comic-border relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-cyan-400/30"></div>
-          <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12 items-center">
-            <div className="text-center md:text-left">
-              <img src="/image/logo/aws_student_builder_group.png" alt="AWS Student Builder Group LPU" className="h-16 mb-6 mx-auto md:mx-0" />
-              <h3 className="text-3xl font-bold text-cyan-300 mb-2 uppercase tracking-wider">Empowering Cloud Innovators</h3>
-              <p className="text-base text-blue-300 mb-4 font-mono uppercase tracking-widest">[GROUND_STATION] Lovely Professional University</p>
-              <p className="text-blue-100/70 leading-relaxed mb-6 text-sm font-mono">
-                AWS Student Builder Group at LPU is a vibrant student-driven community dedicated to demystifying cloud computing and empowering the next generation of cloud architects, developers, and innovators. We provide industry-standard training, hands-on projects, and career acceleration opportunities to students across all skill levels.
-              </p>
-            </div>
+  const partners = [
+    { name: "AWS", logo: "/image/logo/aws.png" },
+    { name: "Niwi.ai", logo: "/image/logo/niwi.png" },
+    { name: ".XYZ Registry", logo: "/image/logo/xyz.png" },
+    { name: "LPU", logo: "/image/logo/lpu.png" },
+  ];
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-blue-900/50 p-6 border-2 border-cyan-400 relative group">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-cyan-400/20" style={{animation: 'telemetryPulse 2s infinite'}}></div>
-                <div className="text-3xl font-bold text-cyan-300 mb-2 font-mono">5K+</div>
-                <div className="text-blue-300 text-xs uppercase font-mono tracking-widest">Active Members</div>
+  return (
+    <section className="py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid items-center gap-16 lg:grid-cols-2">
+          <div>
+            <img
+              src="/image/logo/aws_student_builder_group.png"
+              alt="AWS Student Builder Group"
+              className="mb-8 h-16"
+            />
+
+            <h2 className="text-4xl font-bold text-white">
+              AWS Student Builder Group LPU
+            </h2>
+
+            <p className="mt-6 leading-8 text-slate-300">
+              We are a student-led cloud community at Lovely Professional
+              University helping students learn AWS, build real-world projects,
+              prepare for certifications, and connect with the cloud industry
+              through workshops, hackathons, and mentorship.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-5">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-xl border border-slate-700 bg-slate-900/40 p-6"
+              >
+                <div className="text-3xl font-bold text-cyan-400">
+                  {stat.value}
+                </div>
+
+                <div className="mt-2 text-sm text-slate-400">
+                  {stat.label}
+                </div>
               </div>
-              <div className="bg-blue-900/50 p-6 border-2 border-cyan-400 relative group">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-cyan-400/20" style={{animation: 'telemetryPulse 2s infinite', animationDelay: '0.3s'}}></div>
-                <div className="text-3xl font-bold text-cyan-300 mb-2 font-mono">10+</div>
-                <div className="text-blue-300 text-xs uppercase font-mono tracking-widest">Annual Events</div>
-              </div>
-              <div className="bg-blue-900/50 p-6 border-2 border-cyan-400 relative group">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-cyan-400/20" style={{animation: 'telemetryPulse 2s infinite', animationDelay: '0.6s'}}></div>
-                <div className="text-3xl font-bold text-cyan-300 mb-2 font-mono">100+</div>
-                <div className="text-blue-300 text-xs uppercase font-mono tracking-widest">AWS Certified</div>
-              </div>
-              <div className="bg-blue-900/50 p-6 border-2 border-cyan-400 relative group">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-cyan-400/20" style={{animation: 'telemetryPulse 2s infinite', animationDelay: '0.9s'}}></div>
-                <div className="text-3xl font-bold text-cyan-300 mb-2 font-mono">50h+</div>
-                <div className="text-blue-300 text-xs uppercase font-mono tracking-widest">Training/Year</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="mt-12 text-center">
-          <div className="control-badge p-4 inline-block mb-6">
-            Trusted By
-          </div>
-          <div className="flex justify-center items-center gap-4 flex-wrap">
-            {[
-              { name: 'AWS', logo: '/image/logo/aws.png' },
-              { name: 'Niwi.ai', logo: '/image/logo/niwi.png' },
-              { name: '.XYZ Registry', logo: '/image/logo/xyz.png' },
-              { name: 'LPU', logo: '/image/logo/lpu.png' }
-            ].map((partner) => (
-              <div key={partner.name} className="px-4 uppercase text-xs font-mono text-blue-100 tracking-widest flex flex-col items-center gap-2">
-          <img src={partner.logo} alt={partner.name} className="h-8" />
-              </div>
+        <div className="mt-20 border-t border-slate-700 pt-12">
+          <p className="mb-8 text-center text-sm font-medium tracking-wide text-slate-400">
+            Trusted by
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-12">
+            {partners.map((partner) => (
+              <img
+                key={partner.name}
+                src={partner.logo}
+                alt={partner.name}
+                className="h-8 opacity-80 transition hover:opacity-100"
+              />
             ))}
           </div>
         </div>
