@@ -10,3 +10,8 @@ export function getSupabaseAdminClient() {
 
   return createClient(supabaseUrl, serviceRoleKey)
 }
+
+// Export supabaseAdmin instance for pages 
+
+
+export const supabaseAdmin = getSupabaseAdminClient()
