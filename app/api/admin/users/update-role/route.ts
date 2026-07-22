@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
 const schema = z.object({
   userId: z.uuid(),
@@ -46,6 +46,8 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
+
+    const supabaseAdmin = getSupabaseAdminClient()
 
     const { error } = await supabaseAdmin
       .from('profiles')

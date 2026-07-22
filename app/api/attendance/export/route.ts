@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
 const querySchema = z.object({
   eventId: z.string().optional(),
@@ -59,6 +59,8 @@ export async function GET(req: Request) {
     if (!me || me.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
+
+    const supabaseAdmin = getSupabaseAdminClient()
 
     let query = supabaseAdmin
       .from('attendance')

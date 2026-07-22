@@ -2,7 +2,7 @@ export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -42,6 +42,8 @@ export async function POST(req: Request) {
     }
 
     // 📅 Get today's event
+    const supabaseAdmin = getSupabaseAdminClient()
+
     const { data: event } = await supabaseAdmin
       .from('events')
       .select('id')

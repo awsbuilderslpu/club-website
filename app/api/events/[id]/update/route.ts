@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
 const schema = z.object({
   title: z.string().min(3),
@@ -42,6 +42,8 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (!profile || profile.role !== 'admin') {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
+
+    const supabaseAdmin = getSupabaseAdminClient()
 
     const { error } = await supabaseAdmin
       .from('events')

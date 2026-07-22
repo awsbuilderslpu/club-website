@@ -2,7 +2,7 @@ export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 import { generateCertificatePdf } from '@/lib/certificates/pdf'
 import { getCertificateStoragePath } from '@/lib/certificates/core'
 
@@ -39,6 +39,8 @@ export async function GET(req: Request, { params }: RouteContext) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const supabaseAdmin = getSupabaseAdminClient()
 
     const { data: certificate, error: certificateError } = await supabaseAdmin
       .from('certificates')

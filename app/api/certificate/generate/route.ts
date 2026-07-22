@@ -3,7 +3,7 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 import { createCertificateUid, isEligibleForCertificate } from '@/lib/certificates/core'
 
 const generateSchema = z.object({
@@ -35,6 +35,8 @@ export async function POST(req: Request) {
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const supabaseAdmin = getSupabaseAdminClient()
 
     const { data: event, error: eventError } = await supabaseAdmin
       .from('events')
