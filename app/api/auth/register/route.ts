@@ -1,13 +1,8 @@
 export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import { signUpSchema } from '@/app/schemas/auth.schema'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { createSupabasePublicClient } from '@/lib/supabase/public'
 
 export async function POST(req: Request) {
   try {
@@ -29,6 +24,7 @@ export async function POST(req: Request) {
     const { email, password, full_name } = parsed.data
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+    const supabase = createSupabasePublicClient()
 
     const { data, error } = await supabase.auth.signUp({
       email,
