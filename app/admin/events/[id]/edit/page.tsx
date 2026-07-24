@@ -5,11 +5,11 @@ import EditEventForm from '@/components/admin/EditEventForm'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
 
 export default async function EditEventPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createSupabaseServerClient()
+  const supabaseAdmin = getSupabaseAdminClient()
 
   const {
     data: { user },

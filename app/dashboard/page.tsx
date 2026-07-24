@@ -3,11 +3,11 @@ import { redirect } from 'next/navigation'
 import DashboardClient from '@/components/DashboardClient'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
 
 export default async function DashboardPage() {
   const supabase = await createSupabaseServerClient()
-
+  const supabaseAdmin = getSupabaseAdminClient()
+  
   const {
     data: { user },
   } = await supabase.auth.getUser()

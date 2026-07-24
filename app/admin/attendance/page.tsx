@@ -4,8 +4,6 @@ import { BarChart3, Download, FileSpreadsheet, ShieldCheck, Users } from 'lucide
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
-
 type AttendanceRow = {
   user_id: string
   status: 'checkin' | 'checkout' | 'breakin' | 'breakout'
@@ -21,6 +19,7 @@ type AttendanceRow = {
 
 export default async function AdminAttendanceAnalyticsPage() {
   const supabase = await createSupabaseServerClient()
+  const supabaseAdmin = getSupabaseAdminClient()
 
   const {
     data: { user },
@@ -39,7 +38,7 @@ export default async function AdminAttendanceAnalyticsPage() {
   if (me?.role !== 'admin') {
     redirect('/dashboard')
   }
-
+  
   const { data } = await supabaseAdmin
     .from('attendance')
     .select(

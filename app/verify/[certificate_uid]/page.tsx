@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
 import { toReadableDate } from '@/lib/certificates/core'
 
 type VerifyPageProps = {
@@ -9,6 +8,7 @@ type VerifyPageProps = {
 }
 
 export default async function VerifyCertificatePage({ params }: VerifyPageProps) {
+  const supabaseAdmin = getSupabaseAdminClient()
   const { certificate_uid: certificateUid } = await params
 
   const { data: certificate, error: certificateError } = await supabaseAdmin

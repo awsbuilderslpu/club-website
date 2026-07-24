@@ -4,11 +4,11 @@ import { CalendarDays, PencilLine, PlusCircle, ShieldCheck } from 'lucide-react'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
 
 export default async function AdminEventsPage() {
   const supabase = await createSupabaseServerClient()
-
+  const supabaseAdmin = getSupabaseAdminClient()
+  
   const {
     data: { user },
   } = await supabase.auth.getUser()

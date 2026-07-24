@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
 import { isEligibleForCertificate } from '@/lib/certificates/core'
 import CertificatesClient from '@/components/certificate/CertificatesClient'
 
@@ -25,7 +24,8 @@ type CertificateRow = {
 
 export default async function CertificatesPage() {
   const supabase = await createSupabaseServerClient()
-
+  const supabaseAdmin = getSupabaseAdminClient()
+  
   const {
     data: { user },
   } = await supabase.auth.getUser()

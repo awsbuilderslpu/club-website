@@ -4,7 +4,6 @@ import { CalendarDays, MapPin, Ticket, TriangleAlert } from 'lucide-react'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
 
-const supabaseAdmin = getSupabaseAdminClient()
 import TicketActions from '@/components/attendance/TicketActions'
 
 type TicketPageProps = {
@@ -14,7 +13,8 @@ type TicketPageProps = {
 export default async function TicketPage({ searchParams }: TicketPageProps) {
   const params = await searchParams
   const supabase = await createSupabaseServerClient()
-
+  const supabaseAdmin = getSupabaseAdminClient()
+  
   const {
     data: { user },
   } = await supabase.auth.getUser()

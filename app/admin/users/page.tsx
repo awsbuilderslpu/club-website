@@ -3,8 +3,6 @@ import { redirect } from 'next/navigation'
 import { ShieldCheck, Users } from 'lucide-react'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { getSupabaseAdminClient } from '@/lib/supabase/admin'
-
-const supabaseAdmin = getSupabaseAdminClient()
 import UserRoleTable from '@/components/admin/UserRoleTable'
 
 type Role = 'member' | 'core' | 'admin'
@@ -20,7 +18,8 @@ type AdminUser = {
 
 export default async function AdminUsersPage() {
   const supabase = await createSupabaseServerClient()
-
+  const supabaseAdmin = getSupabaseAdminClient()
+  
   const {
     data: { user },
   } = await supabase.auth.getUser()
