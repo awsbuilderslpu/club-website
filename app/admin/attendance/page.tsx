@@ -2,7 +2,9 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { BarChart3, Download, FileSpreadsheet, ShieldCheck, Users } from 'lucide-react'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+
+const supabaseAdmin = getSupabaseAdminClient()
 
 type AttendanceRow = {
   user_id: string

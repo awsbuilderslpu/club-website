@@ -2,7 +2,9 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { CalendarDays, PencilLine, PlusCircle, ShieldCheck } from 'lucide-react'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+
+const supabaseAdmin = getSupabaseAdminClient()
 
 export default async function AdminEventsPage() {
   const supabase = await createSupabaseServerClient()

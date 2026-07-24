@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+
+const supabaseAdmin = getSupabaseAdminClient()
 import { isEligibleForCertificate } from '@/lib/certificates/core'
 import CertificatesClient from '@/components/certificate/CertificatesClient'
 

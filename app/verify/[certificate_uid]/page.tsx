@@ -1,5 +1,7 @@
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+
+const supabaseAdmin = getSupabaseAdminClient()
 import { toReadableDate } from '@/lib/certificates/core'
 
 type VerifyPageProps = {
