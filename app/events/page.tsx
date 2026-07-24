@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { CalendarDays, MapPin } from "lucide-react";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+
+const supabaseAdmin = getSupabaseAdminClient();
 
 export default async function EventsPage() {
   const { data: events } = await supabaseAdmin
